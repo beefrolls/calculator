@@ -1,0 +1,61 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    background-color: pink;
+}
+
+
+.calc-frame {
+    display: flex;
+    justify-content: inherit;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+    height: 500px;
+    width: 350px;
+    background-color: aliceblue;
+}
+
+.calc-frame > * {
+    flex: 1 1 100%;
+}
+
+.head {
+    background-color: brown;
+    height: 150px;
+    width: 100px;
+}
+
+.monitor {
+    height: inherit;
+    width: inherit;
+}
+
+
+.body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    height: 330px;
+}
+
+.buttons {
+    display: grid;
+    flex:  1 1 100%;
+    grid-template-columns: repeat(4, 1fr);
+    height: inherit;
+    width: inherit;
+}
+
+.buttons > button:nth-child(16) {
+    grid-row-start: span 2;
+}
+
+.buttons > button:nth-child(17) {
+    grid-column-start: span 2;
+}
