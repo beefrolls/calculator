@@ -6,13 +6,6 @@ const calc = document.querySelector('.calculate');
 
 
 
-//For Testing
-
-//let a
-//let b;
-let num;
-let operator;
-const maxLength = 10;
 
 
 /* Approach 2
@@ -44,11 +37,12 @@ calc.addEventListener('click', function() {
 /*****Approach 3*****/
 //Check notes
 let numList = [];
+let num = [];
 
 digits.forEach((digit) => {
     digit.addEventListener('click', function() {
-        numList.push(parseInt(digit.textContent))
-        console.log(numList)
+        num.push(parseInt(digit.textContent))
+        console.log(num)
     })
 })
 
@@ -56,11 +50,18 @@ let opList = [];
 
 operators.forEach((operator) => {
     operator.addEventListener('click', function() {
+        numList.push(parseInt(num.join('')))
+        num = [];
         opList.push(operator.textContent)
+        console.log(numList)
+        console.log(num)
         console.log(opList)
     })
 })
 
+calc.addEventListener('click', function() {
+    computeMain(numList)
+})
 
 //Testing (***Currently working***)
 function compute(array) {
@@ -107,6 +108,7 @@ function computeInit(array) {
 
 //WORKING (SO FAR)
 function computeMain(array) {
+    computeInit(array)
     if (array.length < 3) {
         console.log(initResult)
     } else if (array.length >= 3) {
