@@ -3,46 +3,55 @@ const buttons = document.querySelectorAll('button'); //All buttons
 const operators = document.querySelectorAll('.operator');
 const digits = document.querySelectorAll('.digit');
 const calc = document.querySelector('.calculate');
+const decimal = document.querySelector('.decimal');
+const erase = document.querySelectorAll('.erase');
 
+//DO NOT DELETE//
+//Code for accessing the latest item of the latest array within an array///
+//console.log(list[list.length - 1][list[list.length - 1].length - 1])
 
-
-
-
-/* Approach 2
-- If a doesn't have a value yet, assign the digits being inputted to a, else assign them to b
-*/
-
-/*digits.forEach((digit) => {
-    digit.addEventListener('click', function() {
-        num = parseInt(digit.textContent)
-        console.log(num)
-    })
-})
-
-operators.forEach((operator) => {
-    operator.addEventListener('click', function() {
-        a = num;
-        num = undefined;
-    })
-})
-
-calc.addEventListener('click', function() {
-    b = num;
-    if
-    a = add(a,b)
-    console.log(a)
-})
-*/
+//Testing Code for delete function
+function remove(array1) {
+    let tempList = [];
+    if (num[0] != undefined) {
+        numList.push(parseFloat(num.join('')))
+    }
+    if (opList.length == numList.length) {
+        opList.splice(opList.length - 1)
+    } else {
+        for (num of array1) {
+            let numText = num.toString();
+            let splitText = numText.split('')
+            tempList.push(splitText)
+        }
+        console.log(tempList)
+        tempList[tempList.length - 1].splice(tempList[tempList.length - 1].length - 1)
+        numList = [];
+        console.log(array1)
+        for (item of tempList) {
+            console.log(item)
+            if (item.length >= 1) {
+                numList.push(parseFloat(item.join('')))
+            } else {
+                console.log("We won't add this because the array is empty and there's nothing to join")
+            }
+        }
+    }
+    console.log(numList)
+    console.log(opList)
+}
 
 /*****Approach 3*****/
 //Check notes
-let numList = [];
+let numList = []; 
 let num = [];
 
 digits.forEach((digit) => {
     digit.addEventListener('click', function() {
-        num.push(parseInt(digit.textContent))
+        num.push(digit.textContent)
         console.log(num)
+        //UI-side functionality
+        p.textContent += digit.textContent
     })
 })
 
@@ -50,18 +59,67 @@ let opList = [];
 
 operators.forEach((operator) => {
     operator.addEventListener('click', function() {
-        numList.push(parseInt(num.join('')))
-        num = [];
-        opList.push(operator.textContent)
-        console.log(numList)
-        console.log(num)
-        console.log(opList)
+        //Edited to filter inputs without numbers
+        if (num[0] != undefined) {
+            numList.push(parseFloat(num.join('')))
+            num = [];
+            opList.push(operator.textContent)
+            console.log(numList)
+            console.log(num)
+            console.log(opList)
+            //UI-side functionality
+            p.textContent += ` ${operator.textContent} `
+        }  
     })
 })
 
 calc.addEventListener('click', function() {
+    numList.push(parseFloat(num.join(''))) //Adds any remaining numbers pending to the list to be computed
     computeMain(numList)
 })
+
+decimal.addEventListener('click', function() {
+    //Adds a decimal point given the conditions
+
+    //Doesn't add a decimal when there's already a decimal or when there's no digit entered yet
+    if (num.find(decimalLimiter) || num[0] == undefined) {
+        console.log(`You cannot add ${decimal.textContent} here`);
+    } else {
+        console.log(`There's no decimal yet`)
+        console.log(decimal.textContent)
+        num.push(decimal.textContent)
+        //UI-side functionality
+        p.textContent += `.` 
+    }
+})
+
+erase.forEach((eraser) => {
+    eraser.addEventListener('click', function() {
+        if (eraser.textContent == 'Delete') {
+            remove(numList)
+            let sentence = [];
+            for (i = 0; i < numList.length; i++){
+                sentence.push(numList[i])
+                if (typeof opList[i] == 'string') {
+                    sentence.push(opList[i])
+                }
+            }
+            console.log(sentence)
+            p.textContent = sentence.join(' ')
+        }
+        if (eraser.textContent == 'AC') {
+            num = [];
+            numList = [];
+            opList = [];
+            console.log(`Everything cleared: 
+            Pending numbers: ${num.length},
+            Numbers to be processed: ${numList.length}, 
+            Operators inputted: ${opList.length}`)
+            p.textContent = '';
+        }
+    })
+})
+
 
 //Testing (***Currently working***)
 function compute(array) {
@@ -223,4 +281,8 @@ function operate(a,b,c) {
     } else {
         console.log(divide(a,b))
     }
+}
+
+function decimalLimiter(item) {
+    return item == '.';
 }
