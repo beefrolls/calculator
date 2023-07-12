@@ -11,23 +11,26 @@ const erase = document.querySelectorAll('.erase');
 //console.log(list[list.length - 1][list[list.length - 1].length - 1])
 
 //Testing Code for delete function
-function remove(array1) {
+function remove() {
     let tempList = [];
-    if (num[0] != undefined) {
-        numList.push(parseFloat(num.join('')))
+    if (num[0] != undefined && opList.length == 0 && (opList.length != numList.length)) {
+        numList[0] = parseFloat(num.join(''))
+    } else if (num[0] != undefined && opList.length > 0) {
+        numList[opList.length] = parseFloat(num.join(''))
+    } else if (num[0] != undefined && opList.length == 0 && (numList.length == 0)) {
+        numList[0] = parseFloat(num.join(''))
     }
     if (opList.length == numList.length) {
         opList.splice(opList.length - 1)
     } else {
-        for (num of array1) {
-            let numText = num.toString();
+        for (numItem of numList) {
+            let numText = numItem.toString();
             let splitText = numText.split('')
             tempList.push(splitText)
         }
         console.log(tempList)
         tempList[tempList.length - 1].splice(tempList[tempList.length - 1].length - 1)
         numList = [];
-        console.log(array1)
         for (item of tempList) {
             console.log(item)
             if (item.length >= 1) {
@@ -37,6 +40,26 @@ function remove(array1) {
             }
         }
     }
+    num = [];
+    if(numList.length > opList.length) {
+        if (numList[numList.length - 1] != undefined){
+            num = numList[numList.length - 1].toString()
+            num = num.toString()
+            num = num.split('')
+        } else {
+            num = [];
+        }
+    } else if (numList.length == 0) {
+        if (numList[numList.length - 1] != undefined){
+            num = numList[numList.length - 1].toString()
+            num = num.toString()
+            num = num.split('')
+        } else {
+            num = [];
+        }
+    }
+    
+    console.log(`new num ${typeof num}, ${num}`)
     console.log(numList)
     console.log(opList)
 }
@@ -100,8 +123,10 @@ erase.forEach((eraser) => {
             let sentence = [];
             for (i = 0; i < numList.length; i++){
                 sentence.push(numList[i])
+                sentence.push(' ')
                 if (typeof opList[i] == 'string') {
                     sentence.push(opList[i])
+                    sentence.push(' ')
                 }
             }
             console.log(sentence)
