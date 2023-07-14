@@ -90,7 +90,11 @@ Afterwards, it runs computeMain on the numList array
 */
 calc.addEventListener('click', function() {
     numList.push(parseFloat(num.join(''))) //Adds any remaining numbers pending to the list to be computed
-    computeMain(numList)
+    if (numList.length == 1 && opList.length == 0) {
+        console.log(numList[0])
+    } else {
+        computeMain(numList)
+    }
 })
 
 
@@ -196,8 +200,12 @@ function computeInit(array) {
         initResult = a * b;
         console.log(initResult)
     } else if (opList[0] == '÷') {
-        initResult = a / b;
-        console.log(initResult)
+        if (numList[1] == 0 && opList[0] == '÷') {
+            console.log("You CAN'T DIVIDE BY ZERO!!!")
+        } else {
+            initResult = a / b;
+            console.log(initResult)
+        }
     }
 }
 
@@ -261,10 +269,16 @@ function computeMain(array) {
                 console.log(`This is b: ${b}`)
                 console.log(resultMain)
             } else if (opList[opIndex + 1] == '÷') {
-                resultMain = a / b;
-                console.log(`This is a: ${a}`)
-                console.log(`This is b: ${b}`)
-                console.log(resultMain)
+                for (i = 0; i < numList.length; i++) {
+                    if (numList[i + 1] == 0 && opList[i] == '÷') {
+                        console.log("You can't divide by 0!!!")
+                    } else {
+                        resultMain = a / b;
+                        console.log(`This is a: ${a}`)
+                        console.log(`This is b: ${b}`)
+                        console.log(resultMain)
+                    }
+                }
             }
         }
     }
