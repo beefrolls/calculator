@@ -148,8 +148,8 @@ erase.forEach((eraser) => {
             let sentence = [];
             for (i = 0; i < numList.length; i++){
                 sentence.push(numList[i])
-                sentence.push(' ')
                 if (typeof opList[i] == 'string') {
+                    sentence.push(' ')
                     sentence.push(opList[i])
                     sentence.push(' ')
                 }
