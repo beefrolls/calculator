@@ -269,15 +269,13 @@ function computeMain(array) {
                 console.log(`This is b: ${b}`)
                 console.log(resultMain)
             } else if (opList[opIndex + 1] == '÷') {
-                for (i = 0; i < numList.length; i++) {
-                    if (numList[i + 1] == 0 && opList[i] == '÷') {
-                        console.log("You can't divide by 0!!!")
-                    } else {
-                        resultMain = a / b;
-                        console.log(`This is a: ${a}`)
-                        console.log(`This is b: ${b}`)
-                        console.log(resultMain)
-                    }
+                if (b == 0) {
+                    console.log("You can't divide by 0!!!")
+                } else {
+                    resultMain = a / b;
+                    console.log(`This is a: ${a}`)
+                    console.log(`This is b: ${b}`)
+                    console.log(resultMain)
                 }
             }
         }
