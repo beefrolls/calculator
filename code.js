@@ -65,15 +65,26 @@ operators.forEach((operator) => {
     operator.addEventListener('click', function() {
         //Edited to filter inputs without numbers
         if (num[0] != undefined) {
-            numList.push(parseFloat(num.join('')))
-            num = [];
-            opList.push(operator.textContent)
-            console.log(numList)
-            console.log(num)
-            console.log(opList)
-            //UI-side functionality
-            p.textContent += ` ${operator.textContent} `
-        }  
+            if (numList.length > opList.length) {
+                numList.splice(numList.length - 1, 1, parseFloat(num.join('')))
+                num = [];
+                opList.push(operator.textContent)
+                console.log(numList)
+                console.log(num)
+                console.log(opList)
+                //UI-side functionality
+                p.textContent += ` ${operator.textContent} `
+            } else {
+                numList.push(parseFloat(num.join('')))
+                num = [];
+                opList.push(operator.textContent)
+                console.log(numList)
+                console.log(num)
+                console.log(opList)
+                //UI-side functionality
+                p.textContent += ` ${operator.textContent} `
+            }
+        }
     })
 })
 
@@ -89,6 +100,11 @@ Afterwards, it runs computeMain on the numList array
 
 */
 calc.addEventListener('click', function() {
+    if (numList.length == 0) {
+        numList.push(parseFloat(num.join('')))
+        console.log(`This is pretty much the answer: ${numList}`)
+        return
+    }
     for (i = 0; i < numList.length; i++) {
         if (typeof numList[i] != 'number') {
             console.log(`${numList[i]} will be parsed`)
@@ -98,17 +114,6 @@ calc.addEventListener('click', function() {
             console.log(`${numList[i]} is already a ${typeof numList[i]}`)
         }
     }
-    /*
-    for (numItem of numList) {
-        if (typeof numItem != 'number') {
-            console.log(`${numItem} will be parsed`)
-            parseFloat(numItem)
-            console.log(`${numItem} has been parsed`)
-        } else {
-            console.log(`${numItem} is already a ${typeof numItem}`)
-        }
-    }
-    */
     if (numList.length > opList.length) {
         if (numList.length == 1 && opList.length == 0) {
             console.log(numList[0])
