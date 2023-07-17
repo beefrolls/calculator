@@ -89,6 +89,26 @@ Afterwards, it runs computeMain on the numList array
 
 */
 calc.addEventListener('click', function() {
+    for (i = 0; i < numList.length; i++) {
+        if (typeof numList[i] != 'number') {
+            console.log(`${numList[i]} will be parsed`)
+            numList.splice(i, 1, parseFloat(numList[i]))
+            console.log(`${numList[i]} has been parsed`)
+        } else {
+            console.log(`${numList[i]} is already a ${typeof numList[i]}`)
+        }
+    }
+    /*
+    for (numItem of numList) {
+        if (typeof numItem != 'number') {
+            console.log(`${numItem} will be parsed`)
+            parseFloat(numItem)
+            console.log(`${numItem} has been parsed`)
+        } else {
+            console.log(`${numItem} is already a ${typeof numItem}`)
+        }
+    }
+    */
     if (numList.length > opList.length) {
         if (numList.length == 1 && opList.length == 0) {
             console.log(numList[0])
@@ -316,11 +336,11 @@ That being said, it's working as per recent tests.
 function remove() {
     let tempList = [];
     if (num[0] != undefined && opList.length == 0 && (opList.length != numList.length)) {
-        numList[0] = parseFloat(num.join(''))
+        numList[0] = num.join('')
     } else if (num[0] != undefined && opList.length > 0) {
-        numList[opList.length] = parseFloat(num.join(''))
+        numList[opList.length] = num.join('')
     } else if (num[0] != undefined && opList.length == 0 && (numList.length == 0)) {
-        numList[0] = parseFloat(num.join(''))
+        numList[0] = num.join('')
     }
     if (opList.length == numList.length) {
         opList.splice(opList.length - 1)
@@ -336,7 +356,7 @@ function remove() {
         for (item of tempList) {
             console.log(item)
             if (item.length >= 1) {
-                numList.push(parseFloat(item.join('')))
+                numList.push(item.join(''))
             } else {
                 console.log("We won't add this because the array is empty and there's nothing to join")
             }
