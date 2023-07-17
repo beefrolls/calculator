@@ -89,12 +89,20 @@ Afterwards, it runs computeMain on the numList array
 
 */
 calc.addEventListener('click', function() {
-    numList.push(parseFloat(num.join(''))) //Adds any remaining numbers pending to the list to be computed
-    if (numList.length == 1 && opList.length == 0) {
-        console.log(numList[0])
+    if (numList.length > opList.length) {
+        if (numList.length == 1 && opList.length == 0) {
+            console.log(numList[0])
+        } else if (numList.length == opList.length + 1) {
+            numList.splice((numList.length - 1), 1, parseFloat(num.join('')))
+            console.log(`Spliced num: ${numList}`)
+            computeMain(numList)
+            console.log('lol')
+        }
     } else {
+        numList.push(parseFloat(num.join(''))) //Adds any remaining numbers pending to the list to be computed
         computeMain(numList)
     }
+    
 })
 
 
@@ -322,7 +330,7 @@ function remove() {
             let splitText = numText.split('')
             tempList.push(splitText)
         }
-        console.log(tempList)
+        console.log(`tempList: ${tempList}`)
         tempList[tempList.length - 1].splice(tempList[tempList.length - 1].length - 1)
         numList = [];
         for (item of tempList) {
