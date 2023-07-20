@@ -88,7 +88,6 @@ operators.forEach((operator) => {
     })
 })
 
-
 /*
 
 This event listener attaches a click event to the calc button or more specifically, '='.
@@ -208,6 +207,197 @@ erase.forEach((eraser) => {
 })
 
 
+
+//KEYBOARD SUPPORT EVENT LISTENERS
+
+
+/*
+
+Digits
+
+*/
+
+window.addEventListener('keydown', function(e) {
+    for (i = 0; i < digits.length; i++) {
+        if (e.key == digits[i].textContent) {
+            console.log(e.key)
+            num.push(e.key)
+            console.log(num)
+            //UI-side functionality
+            p.textContent += e.key
+        }
+    }
+})
+
+
+/*
+
+Operators
+
+*/
+
+window.addEventListener('keydown', function(e) {
+    for (i = 0; i < operators.length; i++) {
+        if (e.key == operators[i].textContent) {
+            if (num[0] != undefined) {
+                if (numList.length > opList.length) {
+                    numList.splice(numList.length - 1, 1, parseFloat(num.join('')))
+                    num = [];
+                    opList.push(e.key)
+                    console.log(numList)
+                    console.log(num)
+                    console.log(opList)
+                    //UI-side functionality
+                    p.textContent += ` ${e.key} `
+                } else {
+                    numList.push(parseFloat(num.join('')))
+                    num = [];
+                    opList.push(e.key)
+                    console.log(numList)
+                    console.log(num)
+                    console.log(opList)
+                    //UI-side functionality
+                    p.textContent += ` ${e.key} `
+                }
+            }
+        } else if (e.key == '/') {
+            if (num[0] != undefined) {
+                if (numList.length > opList.length) {
+                    numList.splice(numList.length - 1, 1, parseFloat(num.join('')))
+                    num = [];
+                    opList.push('÷')
+                    console.log(numList)
+                    console.log(num)
+                    console.log(opList)
+                    //UI-side functionality
+                    p.textContent += ` ÷ `
+                } else {
+                    numList.push(parseFloat(num.join('')))
+                    num = [];
+                    opList.push('÷')
+                    console.log(numList)
+                    console.log(num)
+                    console.log(opList)
+                    //UI-side functionality
+                    p.textContent += ` ÷ `
+                }
+            }
+        } else if (e.key == 'x' || e.key == '*') {
+            if (num[0] != undefined) {
+                if (numList.length > opList.length) {
+                    numList.splice(numList.length - 1, 1, parseFloat(num.join('')))
+                    num = [];
+                    opList.push('x')
+                    console.log(numList)
+                    console.log(num)
+                    console.log(opList)
+                    //UI-side functionality
+                    p.textContent += ` x `
+                } else {
+                    numList.push(parseFloat(num.join('')))
+                    num = [];
+                    opList.push('x')
+                    console.log(numList)
+                    console.log(num)
+                    console.log(opList)
+                    //UI-side functionality
+                    p.textContent += ` x `
+                }
+            }
+        }
+    }
+})
+
+
+/*
+
+Calculate
+
+*/
+
+window.addEventListener('keydown', function(e) {
+    if (e.key == '=' || e.key == 'Enter') {
+        if (numList.length == 0) {
+            numList.push(parseFloat(num.join('')))
+            console.log(`This is pretty much the answer: ${numList}`)
+            return
+        }
+        for (i = 0; i < numList.length; i++) {
+            if (typeof numList[i] != 'number') {
+                console.log(`${numList[i]} will be parsed`)
+                numList.splice(i, 1, parseFloat(numList[i]))
+                console.log(`${numList[i]} has been parsed`)
+            } else {
+                console.log(`${numList[i]} is already a ${typeof numList[i]}`)
+            }
+        }
+        if (numList.length > opList.length) {
+            if (numList.length == 1 && opList.length == 0) {
+                console.log(numList[0])
+            } else if (numList.length == opList.length + 1) {
+                numList.splice((numList.length - 1), 1, parseFloat(num.join('')))
+                console.log(`Spliced num: ${numList}`)
+                computeMain(numList)
+                console.log('lol')
+            }
+        } else {
+            numList.push(parseFloat(num.join(''))) //Adds any remaining numbers pending to the list to be computed
+            computeMain(numList)
+        }
+    }
+})
+
+/*
+
+Decimal
+
+*/
+
+window.addEventListener('keydown', function(e) {
+    if (e.key == '.') {
+        if (num.find(decimalLimiter) || num[0] == undefined) {
+            console.log(`You cannot add ${e.key} here`);
+        } else {
+            console.log(`There's no decimal yet`)
+            console.log(e.key)
+            num.push(e.key)
+            //UI-side functionality
+            p.textContent += `.` 
+        }
+    }
+})
+
+/*
+
+Erase
+
+*/
+
+window.addEventListener('keydown', function(e) {
+    if (e.key == 'Backspace') {
+        remove(numList)
+        let sentence = [];
+        for (i = 0; i < numList.length; i++){
+            sentence.push(numList[i])
+            if (typeof opList[i] == 'string') {
+                sentence.push(' ')
+                sentence.push(opList[i])
+                sentence.push(' ')
+            }
+        }
+        console.log(sentence)
+        p.textContent = sentence.join('')
+    } else if (e.key == 'c') {
+        num = [];
+        numList = [];
+        opList = [];
+        console.log(`Everything cleared: 
+        Pending numbers: ${num.length},
+        Numbers to be processed: ${numList.length}, 
+        Operators inputted: ${opList.length}`)
+        p.textContent = '';
+    }
+})
 
 
 //FUNCTIONS
