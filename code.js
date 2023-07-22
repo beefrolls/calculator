@@ -1,4 +1,5 @@
-const p = document.querySelector('p');
+const p = document.querySelector('.computation p');
+const pAns = document.querySelector('.result p');
 const buttons = document.querySelectorAll('button'); //All buttons
 const operators = document.querySelectorAll('.operator');
 const digits = document.querySelectorAll('.digit');
@@ -99,34 +100,41 @@ Afterwards, it runs computeMain on the numList array
 
 */
 calc.addEventListener('click', function() {
-    if (numList.length == 0) {
-        numList.push(parseFloat(num.join('')))
-        console.log(`This is pretty much the answer: ${numList}`)
-        return
-    }
-    for (i = 0; i < numList.length; i++) {
-        if (typeof numList[i] != 'number') {
-            console.log(`${numList[i]} will be parsed`)
-            numList.splice(i, 1, parseFloat(numList[i]))
-            console.log(`${numList[i]} has been parsed`)
-        } else {
-            console.log(`${numList[i]} is already a ${typeof numList[i]}`)
-        }
-    }
-    if (numList.length > opList.length) {
-        if (numList.length == 1 && opList.length == 0) {
-            console.log(numList[0])
-        } else if (numList.length == opList.length + 1) {
-            numList.splice((numList.length - 1), 1, parseFloat(num.join('')))
-            console.log(`Spliced num: ${numList}`)
-            computeMain(numList)
-            console.log('lol')
-        }
+    if (num.length == 0) {
+        console.log('lol')
+        pAns.textContent = ``
     } else {
-        numList.push(parseFloat(num.join(''))) //Adds any remaining numbers pending to the list to be computed
-        computeMain(numList)
+        if (numList.length == 0) {
+            numList.push(parseFloat(num.join('')))
+            console.log(`This is pretty much the answer: ${numList}`)
+            pAns.textContent = numList[0]
+        } else if (numList.length > 0) {
+            for (i = 0; i < numList.length; i++) {
+                if (typeof numList[i] != 'number') {
+                    console.log(`${numList[i]} will be parsed`)
+                    numList.splice(i, 1, parseFloat(numList[i]))
+                    console.log(`${numList[i]} has been parsed`)
+                } else {
+                    console.log(`${numList[i]} is already a ${typeof numList[i]}`)
+                }
+            }
+            if (numList.length > opList.length) {
+                if (numList.length == 1 && opList.length == 0) {
+                    numList.splice((numList.length - 1), 1, parseFloat(num.join('')))
+                    console.log(numList[0])
+                    pAns.textContent = numList[0]
+                } else if (numList.length == opList.length + 1) {
+                    numList.splice((numList.length - 1), 1, parseFloat(num.join('')))
+                    console.log(`Spliced num: ${numList}`)
+                    computeMain(numList)
+                    console.log('lol')
+                }
+            } else {
+                numList.push(parseFloat(num.join(''))) //Adds any remaining numbers pending to the list to be computed
+                computeMain(numList)
+            }
+        }
     }
-    
 })
 
 
@@ -316,33 +324,41 @@ Calculate
 */
 
 window.addEventListener('keydown', function(e) {
-    if (e.key == '=' || e.key == 'Enter') {
-        if (numList.length == 0) {
-            numList.push(parseFloat(num.join('')))
-            console.log(`This is pretty much the answer: ${numList}`)
-            return
-        }
-        for (i = 0; i < numList.length; i++) {
-            if (typeof numList[i] != 'number') {
-                console.log(`${numList[i]} will be parsed`)
-                numList.splice(i, 1, parseFloat(numList[i]))
-                console.log(`${numList[i]} has been parsed`)
-            } else {
-                console.log(`${numList[i]} is already a ${typeof numList[i]}`)
+    if (num.length == 0) {
+        console.log('lol')
+        pAns.textContent = ''
+    } else {
+        if (e.key == '=' || e.key == 'Enter') {
+            if (numList.length == 0) {
+                numList.push(parseFloat(num.join('')))
+                console.log(`This is pretty much the answer: ${numList}`)
+                pAns.textContent = numList[0]
+            } else if (numList.length > 0) {
+                for (i = 0; i < numList.length; i++) {
+                    if (typeof numList[i] != 'number') {
+                        console.log(`${numList[i]} will be parsed`)
+                        numList.splice(i, 1, parseFloat(numList[i]))
+                        console.log(`${numList[i]} has been parsed`)
+                    } else {
+                        console.log(`${numList[i]} is already a ${typeof numList[i]}`)
+                    }
+                }
+                if (numList.length > opList.length) {
+                    if (numList.length == 1 && opList.length == 0) {
+                        console.log(numList[0])
+                        numList.splice((numList.length - 1), 1, parseFloat(num.join('')))
+                        pAns.textContent = numList[0]
+                    } else if (numList.length == opList.length + 1) {
+                        numList.splice((numList.length - 1), 1, parseFloat(num.join('')))
+                        console.log(`Spliced num: ${numList}`)
+                        computeMain(numList)
+                        console.log('lol')
+                    }
+                } else {
+                    numList.push(parseFloat(num.join(''))) //Adds any remaining numbers pending to the list to be computed
+                    computeMain(numList)
+                }
             }
-        }
-        if (numList.length > opList.length) {
-            if (numList.length == 1 && opList.length == 0) {
-                console.log(numList[0])
-            } else if (numList.length == opList.length + 1) {
-                numList.splice((numList.length - 1), 1, parseFloat(num.join('')))
-                console.log(`Spliced num: ${numList}`)
-                computeMain(numList)
-                console.log('lol')
-            }
-        } else {
-            numList.push(parseFloat(num.join(''))) //Adds any remaining numbers pending to the list to be computed
-            computeMain(numList)
         }
     }
 })
@@ -469,6 +485,7 @@ function computeMain(array) {
     computeInit(array)
     if (array.length < 3) {
         console.log(initResult)
+        pAns.textContent = initResult;
     } else if (array.length >= 3) {
         let resultMain = initResult;
         let bIndex = 1;
@@ -481,16 +498,19 @@ function computeMain(array) {
                 console.log(`This is a: ${a}`)
                 console.log(`This is b: ${b}`)
                 console.log(resultMain)
+                pAns.textContent = resultMain
             } else if (opList[opIndex + 1] == '-') {
                 resultMain = a - b;
                 console.log(`This is a: ${a}`)
                 console.log(`This is b: ${b}`)
                 console.log(resultMain)
+                pAns.textContent = resultMain
             } else if (opList[opIndex + 1] == 'x') {
                 resultMain = a * b;
                 console.log(`This is a: ${a}`)
                 console.log(`This is b: ${b}`)
                 console.log(resultMain)
+                pAns.textContent = resultMain
             } else if (opList[opIndex + 1] == '÷') {
                 if (b == 0) {
                     console.log("You can't divide by 0!!!")
@@ -499,6 +519,7 @@ function computeMain(array) {
                     console.log(`This is a: ${a}`)
                     console.log(`This is b: ${b}`)
                     console.log(resultMain)
+                    pAns.textContent = resultMain
                 }
             }
         }
